@@ -1,0 +1,16 @@
+services:
+  target:
+    image: python:3.12-slim
+    working_dir: /target
+    volumes:
+      - ./target_site:/target
+    command: python server.py
+    ports:
+      - "8000:8000"
+
+  scraper:
+    build: .
+    depends_on:
+      - target
+    environment:
+      TARGET_URL: http://target:8000/products
